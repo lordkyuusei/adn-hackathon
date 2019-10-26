@@ -171,8 +171,13 @@ export default {
     }
   },
   methods: {
-    navigateOnClick() {
-      this.$router.push("events/detail");
+    navigateOnClick(id) {
+      this.$store.dispatch("getEventById", id).then(response => {
+        this.$store.commit('setEvent', response.data);
+        this.$router.push({
+          name: "eventDetail"
+        });
+      });
     },
     changeFilterOnClick() {
       this.myEventSelected = !this.myEventSelected;

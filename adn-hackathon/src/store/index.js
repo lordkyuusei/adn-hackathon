@@ -9,6 +9,7 @@ const endpoint = "https://localhost:44310";
 export default new Vuex.Store({
   state: {
     user: {},
+    currEvent: {},
     displayFooter: false,
     tab: "events"
   },
@@ -16,8 +17,8 @@ export default new Vuex.Store({
     setUser(state, user) {
       state.user = user;
     },
-    setTitle(state, title) {
-      state.title = title;
+    setEvent(state, event) {
+      state.currEvent = event;
     }
   },
   actions: {
@@ -51,6 +52,10 @@ export default new Vuex.Store({
     getGoals({ state }) {
       console.log(state);
       return axios.get(`${endpoint}/Goals`);
+    },
+    getEventById({ state }, id) {
+      console.log(state);
+      return axios.get(`${endpoint}/Events/${id}`);
     }
   },
   modules: {}

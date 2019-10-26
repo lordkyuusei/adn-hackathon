@@ -54,9 +54,6 @@
 </template>
 <script>
 export default {
-  created() {
-    this.$store.commit("setTitle", "Authentification");
-  },
   data() {
     return {
       email: "",

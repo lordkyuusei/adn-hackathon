@@ -86,7 +86,8 @@ export default {
       images: {
         map: require("./../assets/event_map.png")
       },
-      inscrit: false
+      inscrit: false,
+      currEvent: this.$store.state.currEvent
     };
   },
   methods: {
