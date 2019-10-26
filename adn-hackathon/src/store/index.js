@@ -9,16 +9,16 @@ const endpoint = "https://localhost:44310";
 export default new Vuex.Store({
   state: {
     user: {},
-    title: "",
+    currEvent: {},
     displayFooter: false,
-    tab: 'events'
+    tab: "events"
   },
   mutations: {
     setUser(state, user) {
       state.user = user;
     },
-    setTitle(state, title) {
-      state.title = title;
+    setEvent(state, event) {
+      state.currEvent = event;
     }
   },
   actions: {
@@ -37,6 +37,33 @@ export default new Vuex.Store({
     },
     getEvents(){
         return axios.get(`${endpoint}/Events`);
+    },
+    getInterests() {
+      return axios.get(`${endpoint}/Interests`);
+    },
+    getSports({ state }, selectedInterests) {
+      const interestIds = [];
+      selectedInterests.forEach(interest => {
+        interestIds.push(interest.id);
+        state.user.userInterests.push({
+          userId: state.user.userId,
+          interestId: interest.id
+        });
+      });
+      const uri = interestIds.length ? "/Interests/Sports" : "/Sports";
+      return axios.get(`${endpoint}${uri}`, {
+        params: {
+          interestIds
+        }
+      });
+    },
+    getGoals({ state }) {
+      console.log(state);
+      return axios.get(`${endpoint}/Goals`);
+    },
+    getEventById({ state }, id) {
+      console.log(state);
+      return axios.get(`${endpoint}/Events/${id}`);
     }
   },
   modules: {}

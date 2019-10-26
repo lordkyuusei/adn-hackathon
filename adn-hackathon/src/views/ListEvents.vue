@@ -3,11 +3,12 @@
     <div class="row header-events" style="height: 126px;">
       <div class="col-6 left-top" style>
         Bonjour
-        <br />Anne-Sophie !
+        <br />
+        {{ $store.state.user.username}} !
       </div>
       <div class="col-6 right-top">
         <div class="row justify-end">
-          <div class="col-9">Mardi 6 Janvier</div>
+          <div class="col-9">{{ todayDate }}</div>
         </div>
         <div class="row justify-end" style="height: 40px;padding-right: 16px">
           <div class="col-9 black-opacity">
@@ -113,9 +114,23 @@ export default {
       }
     };
   },
+  computed: {
+    todayDate() {
+      return new Date()
+        .toString()
+        .split(" ")
+        .splice(1, 3)
+        .join(" ");
+    }    
+  },
   methods: {
-    navigateOnClick() {
-      this.$router.push("events/detail");
+    navigateOnClick(id) {
+      this.$store.dispatch("getEventById", id).then(response => {
+        this.$store.commit('setEvent', response.data);
+        this.$router.push({
+          name: "eventDetail"
+        });
+      });
     },
     changeFilterOnClick() {
       this.myEventSelected = !this.myEventSelected;

@@ -54,9 +54,6 @@
 </template>
 <script>
 export default {
-  created() {
-    this.$store.commit("setTitle", "Authentification");
-  },
   data() {
     return {
       email: "",
@@ -78,8 +75,10 @@ export default {
             const { data } = response;
             this.$store.commit("setUser", data);
             this.$q.notify(`Login successful, ${data.username}`);
+            this.$router.push("events");
           })
-          .catch(() => {
+          .catch(error => {
+            console.log(error);
             this.$q.notify("Login failure. Check your credentials.");
           });
       } else {
@@ -92,6 +91,10 @@ export default {
           .dispatch("create", data)
           .then(response => {
             const { data } = response;
+            data.userInterests = [];
+            data.userSports = [];
+            data.userGoals = [];
+            data.userEvents = [];
             this.$store.commit("setUser", data);
             this.$q.notify(`Creation successful, ${data.username}`);
             this.$router.push("create");
