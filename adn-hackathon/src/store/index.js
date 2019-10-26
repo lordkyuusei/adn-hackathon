@@ -29,6 +29,14 @@ export default new Vuex.Store({
     create({ state }, userData) {
       console.log(state);
       return axios.post(`${endpoint}/Users/register`, userData);
+    },
+    createEvent({state}, eventData)
+    {
+        console.log(state);
+        return axios.post(`${endpoint}/Events`, eventData);
+    },
+    getEvents(){
+        return axios.get(`${endpoint}/Events`);
     }
   },
   modules: {}

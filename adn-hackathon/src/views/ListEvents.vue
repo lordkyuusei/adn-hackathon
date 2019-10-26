@@ -27,11 +27,19 @@
     <div class="row content" style="padding-top: 25px;">
       <div style="max-height: 140px;">
         <div class="row justify-center" style="padding-right: 10px;">
-          <div class="filter-btn" :class="{'filter-btn-inactive': !myEventSelected}" @click="changeFilterOnClick">
+          <div
+            class="filter-btn"
+            :class="{'filter-btn-inactive': !myEventSelected}"
+            @click="changeFilterOnClick"
+          >
             <q-icon name="today" style="font-size: 22px;"></q-icon>
             <br />Vos prochains événements
           </div>
-          <div class="col-5 filter-btn" :class="{'filter-btn-inactive': myEventSelected}" @click="changeFilterOnClick">
+          <div
+            class="col-5 filter-btn"
+            :class="{'filter-btn-inactive': myEventSelected}"
+            @click="changeFilterOnClick"
+          >
             <q-icon name="where_to_vote" style="font-size: 22px;"></q-icon>
             <br />Evénements autour de vous
           </div>
@@ -48,32 +56,45 @@
           <div style="width:100%">
             <div class="row justify-between">
               <div class="col-4 title-event">{{e.title}}</div>
-              <div class="col-3 difficulty">{{e.difficulty}}</div>
+              <div class="col-3 difficulty">Débutant</div>
             </div>
             <div class="row">
-              <div class="col" style="font-weight: 500;">{{e.date}}</div>
+              <div
+                class="col"
+                style="font-weight: 500;"
+              >Jeudi {{getDay()}} Janvier - {{getHour()}}h</div>
             </div>
             <div class="row" style="color: #9BA6B2;">
-              <div class="col">{{e.lieu}}</div>
+              <div class="col">CK Sportcenter Kockelscheuer</div>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div id="add-event">
-      <q-btn id="add-event" round color="primary" icon="add" @click="createEventOnClick"/>
+      <q-btn id="add-event" round color="primary" icon="add" @click="createEventOnClick" />
     </div>
-    <CreateEvent :prompt="createEvent" />
+    <CreateEvent :prompt="createEvent" v-on:finish-creation="resetCreationEvent" />
   </div>
 </template>
 
 <script>
-import CreateEvent from '../components/CreateEvent'
+import CreateEvent from "../components/CreateEvent";
 
 export default {
   created() {
     this.$store.state.displayFooter = true;
     this.$store.state.tab = "events";
+
+    this.$store
+      .dispatch("getEvents")
+      .then(response => {
+        this.events = response.data;
+        this.$q.notify(`Successfully initialise list`);
+      })
+      .catch(() => {
+        this.$q.notify("Error creating the event");
+      });
   },
   data() {
     return {
@@ -82,91 +103,38 @@ export default {
         celcius: require("./../assets/temperature.svg")
       },
       myEventSelected: true,
-      createEvent: false
+      createEvent: false,
+      events: [],
+      optionsDate: {
+        weekday: "long",
+        year: "numeric",
+        month: "long",
+        day: "numeric"
+      }
     };
-  },
-  computed: {
-    events() {
-      return [
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        },
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        },
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        },
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        },
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        },
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        },
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        },
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        },
-        {
-          id: 7,
-          title: "Running",
-          date: "Jeudi 8 Janvier - 17h",
-          difficulty: "Débutant",
-          lieu: "CK Sportcenter Kockelscheuer"
-        }
-      ];
-    }
   },
   methods: {
     navigateOnClick() {
       this.$router.push("events/detail");
     },
     changeFilterOnClick() {
-        this.myEventSelected = !this.myEventSelected;
+      this.myEventSelected = !this.myEventSelected;
     },
     createEventOnClick() {
-        this.createEvent = true;
+      this.createEvent = true;
+    },
+    resetCreationEvent() {
+      this.createEvent = false;
+    },
+    getDay() {
+      return (Math.floor(Math.random() * Math.floor(30))) + 1;
+    },
+    getHour() {
+      return Math.floor(Math.random() * Math.floor(24));
     }
   },
   components: {
-      CreateEvent
+    CreateEvent
   }
 };
 </script>
@@ -219,7 +187,7 @@ export default {
   background-color: white;
   max-width: 168px;
   margin-left: 10px;
-  transition: background-color .3s, color .3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .filter-btn-inactive {
@@ -236,10 +204,9 @@ export default {
 .difficulty {
   background-color: #a2f1e7;
   padding: 3px;
-  padding-left: 15px;
-  padding-right: 5px;
   border-radius: 8px;
   font-size: 12px;
+  text-align: center;
 }
 
 .black-opacity {
