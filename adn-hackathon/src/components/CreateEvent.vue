@@ -28,13 +28,13 @@ export default {
     }
   },
   computed: {
-      sport() {
-          return [
-              { Id: 1, Name: 'Aviron', Description: 'sport'},
-              { Id: 2, Name: 'Basketball', Description: 'sport'},
-              { Id: 3, Name: 'Badminton', Description: 'sport'}
-          ]
-      }
+    sport() {
+      return [
+        { Id: 1, Name: "Aviron", Description: "sport" },
+        { Id: 2, Name: "Basketball", Description: "sport" },
+        { Id: 3, Name: "Badminton", Description: "sport" }
+      ];
+    }
   }
 };
 </script>

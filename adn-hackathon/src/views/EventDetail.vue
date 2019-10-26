@@ -79,7 +79,7 @@
 <script>
 export default {
   created() {
-      this.$store.state.displayFooter = false;
+    this.$store.state.displayFooter = false;
   },
   data() {
     return {
@@ -94,7 +94,7 @@ export default {
       this.inscrit = !this.inscrit;
     },
     goBack() {
-        this.$router.back();
+      this.$router.back();
     }
   },
   computed: {

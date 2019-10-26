@@ -3,11 +3,12 @@
     <div class="row header-events" style="height: 126px;">
       <div class="col-6 left-top" style>
         Bonjour
-        <br />Anne-Sophie !
+        <br />
+        {{ $store.state.user.username}} !
       </div>
       <div class="col-6 right-top">
         <div class="row justify-end">
-          <div class="col-9">Mardi 6 Janvier</div>
+          <div class="col-9">{{ todayDate }}</div>
         </div>
         <div class="row justify-end" style="height: 40px;padding-right: 16px">
           <div class="col-9 black-opacity">
@@ -27,11 +28,19 @@
     <div class="row content" style="padding-top: 25px;">
       <div style="max-height: 140px;">
         <div class="row justify-center" style="padding-right: 10px;">
-          <div class="filter-btn" :class="{'filter-btn-inactive': !myEventSelected}" @click="changeFilterOnClick">
+          <div
+            class="filter-btn"
+            :class="{'filter-btn-inactive': !myEventSelected}"
+            @click="changeFilterOnClick"
+          >
             <q-icon name="today" style="font-size: 22px;"></q-icon>
             <br />Vos prochains événements
           </div>
-          <div class="col-5 filter-btn" :class="{'filter-btn-inactive': myEventSelected}" @click="changeFilterOnClick">
+          <div
+            class="col-5 filter-btn"
+            :class="{'filter-btn-inactive': myEventSelected}"
+            @click="changeFilterOnClick"
+          >
             <q-icon name="where_to_vote" style="font-size: 22px;"></q-icon>
             <br />Evénements autour de vous
           </div>
@@ -61,14 +70,14 @@
       </div>
     </div>
     <div id="add-event">
-      <q-btn id="add-event" round color="primary" icon="add" @click="createEventOnClick"/>
+      <q-btn id="add-event" round color="primary" icon="add" @click="createEventOnClick" />
     </div>
     <CreateEvent :prompt="createEvent" />
   </div>
 </template>
 
 <script>
-import CreateEvent from '../components/CreateEvent'
+import CreateEvent from "../components/CreateEvent";
 
 export default {
   created() {
@@ -86,6 +95,13 @@ export default {
     };
   },
   computed: {
+    todayDate() {
+      return new Date()
+        .toString()
+        .split(" ")
+        .splice(1, 3)
+        .join(" ");
+    },
     events() {
       return [
         {
@@ -159,14 +175,14 @@ export default {
       this.$router.push("events/detail");
     },
     changeFilterOnClick() {
-        this.myEventSelected = !this.myEventSelected;
+      this.myEventSelected = !this.myEventSelected;
     },
     createEventOnClick() {
-        this.createEvent = true;
+      this.createEvent = true;
     }
   },
   components: {
-      CreateEvent
+    CreateEvent
   }
 };
 </script>
@@ -219,7 +235,7 @@ export default {
   background-color: white;
   max-width: 168px;
   margin-left: 10px;
-  transition: background-color .3s, color .3s;
+  transition: background-color 0.3s, color 0.3s;
 }
 
 .filter-btn-inactive {

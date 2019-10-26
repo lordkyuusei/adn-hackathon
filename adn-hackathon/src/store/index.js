@@ -9,9 +9,8 @@ const endpoint = "https://localhost:44310";
 export default new Vuex.Store({
   state: {
     user: {},
-    title: "",
     displayFooter: false,
-    tab: 'events'
+    tab: "events"
   },
   mutations: {
     setUser(state, user) {
@@ -29,6 +28,29 @@ export default new Vuex.Store({
     create({ state }, userData) {
       console.log(state);
       return axios.post(`${endpoint}/Users/register`, userData);
+    },
+    getInterests() {
+      return axios.get(`${endpoint}/Interests`);
+    },
+    getSports({ state }, selectedInterests) {
+      const interestIds = [];
+      selectedInterests.forEach(interest => {
+        interestIds.push(interest.id);
+        state.user.userInterests.push({
+          userId: state.user.userId,
+          interestId: interest.id
+        });
+      });
+      const uri = interestIds.length ? "/Interests/Sports" : "/Sports";
+      return axios.get(`${endpoint}${uri}`, {
+        params: {
+          interestIds
+        }
+      });
+    },
+    getGoals({ state }) {
+      console.log(state);
+      return axios.get(`${endpoint}/Goals`);
     }
   },
   modules: {}
