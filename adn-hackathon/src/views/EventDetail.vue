@@ -5,7 +5,7 @@
     </div>
     <div style="padding-left: 12px; padding-right: 15px;margin-top: 10px;">
       <div class="row" style="margin-bottom: 4px;">
-        <div class="col" style="font-size:20px;">Running</div>
+        <div class="col" style="font-size:20px;">{{currEvent.sport.name}}</div>
       </div>
       <div class="row justify-between">
         <div class="col-6 flex-align">

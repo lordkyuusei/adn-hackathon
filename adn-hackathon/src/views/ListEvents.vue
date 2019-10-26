@@ -52,7 +52,7 @@
           v-for="e in events"
           :key="e.id"
           style="margin-bottom:15px;height: 85px; width:340px;margin-left:17px;background: white;border-radius: 8px; padding: 10px;"
-          @click="navigateOnClick"
+          @click="navigateOnClick(e.id)"
         >
           <div style="width:100%">
             <div class="row justify-between">
