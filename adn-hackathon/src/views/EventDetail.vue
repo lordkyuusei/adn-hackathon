@@ -71,7 +71,7 @@
       <q-icon name="share"></q-icon>
     </div>
     <div class="text-white" style="position: absolute; top:6px; left:13px; font-size:32px;">
-      <q-icon name="keyboard_backspace"></q-icon>
+      <q-icon name="keyboard_backspace" @click="goBack"></q-icon>
     </div>
   </div>
 </template>
@@ -79,7 +79,7 @@
 <script>
 export default {
   created() {
-      this.$store.state.displayFooter = true;
+      this.$store.state.displayFooter = false;
   },
   data() {
     return {
@@ -92,6 +92,9 @@ export default {
   methods: {
     onClick() {
       this.inscrit = !this.inscrit;
+    },
+    goBack() {
+        this.$router.back();
     }
   },
   computed: {

@@ -18,7 +18,7 @@
 export default {
   data() {
     return {
-      tab: "home"
+      tab: this.$store.state.tab
     };
   }
 };

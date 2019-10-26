@@ -27,12 +27,12 @@
     <div class="row content" style="padding-top: 25px;">
       <div style="max-height: 140px;">
         <div class="row justify-center" style="padding-right: 10px;">
-          <div class="filter-btn">
+          <div class="filter-btn" :class="{'filter-btn-inactive': !myEventSelected}" @click="changeFilterOnClick">
             <q-icon name="today" style="font-size: 22px;"></q-icon>
             <br />Vos prochains événements
           </div>
-          <div class="col-5 filter-btn filter-btn-inactive">
-            <q-icon name="beenhere" style="font-size: 22px;"></q-icon>
+          <div class="col-5 filter-btn" :class="{'filter-btn-inactive': myEventSelected}" @click="changeFilterOnClick">
+            <q-icon name="where_to_vote" style="font-size: 22px;"></q-icon>
             <br />Evénements autour de vous
           </div>
         </div>
@@ -43,6 +43,7 @@
           v-for="e in events"
           :key="e.id"
           style="margin-bottom:15px;height: 85px; width:340px;margin-left:17px;background: white;border-radius: 8px; padding: 10px;"
+          @click="navigateOnClick"
         >
           <div style="width:100%">
             <div class="row justify-between">
@@ -59,20 +60,29 @@
         </div>
       </div>
     </div>
+    <div id="add-event">
+      <q-btn id="add-event" round color="primary" icon="add" @click="createEventOnClick"/>
+    </div>
+    <CreateEvent :prompt="createEvent" />
   </div>
 </template>
 
 <script>
+import CreateEvent from '../components/CreateEvent'
+
 export default {
   created() {
-      this.$store.state.displayFooter = true;
+    this.$store.state.displayFooter = true;
+    this.$store.state.tab = "events";
   },
   data() {
     return {
       images: {
         weather: require("./../assets/weather.svg"),
         celcius: require("./../assets/temperature.svg")
-      }
+      },
+      myEventSelected: true,
+      createEvent: false
     };
   },
   computed: {
@@ -143,6 +153,20 @@ export default {
         }
       ];
     }
+  },
+  methods: {
+    navigateOnClick() {
+      this.$router.push("events/detail");
+    },
+    changeFilterOnClick() {
+        this.myEventSelected = !this.myEventSelected;
+    },
+    createEventOnClick() {
+        this.createEvent = true;
+    }
+  },
+  components: {
+      CreateEvent
   }
 };
 </script>
@@ -195,6 +219,7 @@ export default {
   background-color: white;
   max-width: 168px;
   margin-left: 10px;
+  transition: background-color .3s, color .3s;
 }
 
 .filter-btn-inactive {
@@ -229,5 +254,11 @@ export default {
 .weather {
   border-right: solid rgba(0, 0, 0, 0.2) 2px;
   padding-right: 11px;
+}
+
+#add-event {
+  position: absolute;
+  right: 5px;
+  bottom: 75px;
 }
 </style>

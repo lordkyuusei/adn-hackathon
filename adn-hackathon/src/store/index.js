@@ -10,7 +10,8 @@ export default new Vuex.Store({
   state: {
     user: {},
     title: "",
-    displayFooter: false
+    displayFooter: false,
+    tab: 'events'
   },
   mutations: {
     setUser(state, user) {
