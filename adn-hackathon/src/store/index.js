@@ -9,7 +9,8 @@ const endpoint = "https://localhost:44310";
 export default new Vuex.Store({
   state: {
     user: {},
-    title: ""
+    title: "",
+    displayFooter: false
   },
   mutations: {
     setUser(state, user) {
